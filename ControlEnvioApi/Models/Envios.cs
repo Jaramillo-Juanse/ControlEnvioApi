@@ -7,6 +7,7 @@
         public float pesoKg { get; set; }
         public float precioporKg { get; set; }
         public bool esUrgente { get; set; }
+        public bool isActive { get; set; }
 
     }
 }

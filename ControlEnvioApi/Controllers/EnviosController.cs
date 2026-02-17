@@ -35,9 +35,26 @@ namespace ControlEnvioApi.Controllers
         {
             var precio = _enviosService.getPrice(id);
             //Refactoriza
-            return precio != null ? Ok($"El precio del envio hacia {} con ID: {id} es de ${precio}.") : NotFound("Error. No existe el envío.");
+            return precio != 0.0f ? Ok($"El precio del envio con ID: {id} es de ${precio}.") : NotFound("Error. No existe el envío.");
+        }
+        [HttpPost]
+        public IActionResult Create([FromBody] Envios newEnvio)
+        {
+            var createdEnvio = _enviosService.Create(newEnvio);
+            return CreatedAtAction(nameof(getById), new { id = createdEnvio.id }, createdEnvio);
+
+        }
+        [HttpPut]
+        public IActionResult Update(Guid id, [FromBody] Envios editedEnvio)
+        {
+            return _enviosService.Update(id, editedEnvio) ? NoContent() : NotFound();
         }
 
+        [HttpPatch("{id}/change-status")]
+        public IActionResult ChangeStatus(Guid id)
+        {
+            return _enviosService.ChangeStatus(id) ? Ok($"Se ha cambiado el estado del envío ID:{id}.") : NotFound();
+        }
 
     }
 }
