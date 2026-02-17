@@ -34,8 +34,9 @@ namespace ControlEnvioApi.Controllers
         public IActionResult getPrice(Guid id)
         {
             var precio = _enviosService.getPrice(id);
+            var envio = _enviosService.getById(id);
             //Refactoriza
-            return precio != 0.0f ? Ok($"El precio del envio con ID: {id} es de ${precio}.") : NotFound("Error. No existe el envío.");
+            return precio != 0.0f ? Ok($"El precio del envío hacia {envio.destino} es de ${precio}.\n (ID:{id})") : NotFound("Error. No existe el envío.");
         }
         [HttpPost]
         public IActionResult Create([FromBody] Envios newEnvio)
